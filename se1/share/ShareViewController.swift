@@ -48,7 +48,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             var items = Set<String>()
 
-            if item.hasItemConformingToTypeIdentifier("public.url") {
+            if item.hasItemConformingToTypeIdentifier("public.plain-text") {
+                item.loadItem(forTypeIdentifier: "public.plain-text", options: nil, completionHandler: { (results, error) in
+                    let text = results as! String?
+                        print("\(text)")
+                })
+            } else if item.hasItemConformingToTypeIdentifier("public.url") {
                 item.loadItem(forTypeIdentifier: "public.url", options: nil, completionHandler: { (results, error) in
                     let url = results as! URL?
                     self.urlString = url?.absoluteString ?? ""
