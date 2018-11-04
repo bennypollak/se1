@@ -8,6 +8,7 @@
 
 import UIKit
 import Social
+import Toast
 private let reuseIdentifier = "ShareCollectionViewCell"
 
 class ShareCollectionViewCell: UITableViewCell {
@@ -18,7 +19,10 @@ class ShareCollectionViewCell: UITableViewCell {
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var texts:[String] = []
-    var patterns:[String:String] =  [ "(https?://.*)\\?.*$":"$1", "(https?://[^/]*).*$":"$1", "(https?://).*\\.([^.]*)\\.([^/.]*).*$":"$1$2.$3"]
+    var patterns:[String:String] =  [ "(https?://.*)\\?.*$":"$1",
+                                      "(https?://[^/]*).*$":"$1",
+                                      "(https?://).*\\.([^/.]*)\\.([^/.]*).*$":"$1$2.$3"
+    ]
     @IBOutlet weak var textLbl: UILabel!
     var urlString:String = ""
     fileprivate func cleanURL(_ pattern: String, _ string: String, _ template: String) -> String {
@@ -50,17 +54,20 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
             if item.hasItemConformingToTypeIdentifier("public.plain-text") {
                 item.loadItem(forTypeIdentifier: "public.plain-text", options: nil, completionHandler: { (results, error) in
-                    let text = results as! String?
+                    if let text = results as! String? {
                         print("\(text)")
+                        self.texts.append(text)
+                    }
                 })
-            } else if item.hasItemConformingToTypeIdentifier("public.url") {
+            } else
+                if item.hasItemConformingToTypeIdentifier("public.url") {
                 item.loadItem(forTypeIdentifier: "public.url", options: nil, completionHandler: { (results, error) in
                     let url = results as! URL?
                     self.urlString = url?.absoluteString ?? ""
 //                    print("\(url?.absoluteString ?? "?")")
                     self.texts.append(self.urlString)
                     let string = self.urlString //"https://www.amazon.com/Mathematica-Cookbook-Building-Science-Engineering-ebook/dp/B0043EWVBU?keywords=mathematica&qid=1540843280&sr=8-24&ref=sr_1_24"
-                    items.insert("https://www.carrentals.com/")
+                    items.insert(string)
                     for  (pattern, template) in self.patterns {
                         let item = self.cleanURL(pattern, string, template)
                         if !items.contains(item) {
@@ -70,7 +77,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
 //                    UIPasteboard.general.string = self.urlString
                     self.UI {
-                    self.table.reloadData()
+//                            self.view.makeToast("Video created!", duration: 3.0, position: .center)
+                        self.table.reloadData()
                     }
                 })
             }
@@ -114,8 +122,17 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell!
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIPasteboard.general.string = texts[indexPath.row]
-        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+        let text:String = texts[indexPath.row]
+        UIPasteboard.general.string = text
+        self.UI {
+//            self.view!.makeToast("\(text)")
+            self.view!.makeToast("Copied\n \(text)", duration: 2.0, position:  CGPoint(x: self.view!.bounds.size.width / 2.0, y: self.view!.bounds.size.height / 2.0))
+            Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { timer in
+                self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+            }
+            
+            //            self.view!.makeToast("\(text)", duration: 3.0, position: .center)
+        }
         
     }
     // MARK: - Utils
@@ -125,5 +142,5 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func BG(_ block: @escaping ()->Void) {
         DispatchQueue.global(qos: .default).async(execute: block)
     }
-
+   
 }
