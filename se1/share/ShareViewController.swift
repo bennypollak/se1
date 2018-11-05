@@ -48,7 +48,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             print("item: \(item)")
             for id in item.registeredTypeIdentifiers {
                 print("id \(id)")
-                texts.append(id)
+//                texts.append(id)
             }
             var items = Set<String>()
 
@@ -78,6 +78,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //                    UIPasteboard.general.string = self.urlString
                     self.UI {
 //                            self.view.makeToast("Video created!", duration: 3.0, position: .center)
+                        self.texts.append("Cancel")
                         self.table.reloadData()
                     }
                 })
@@ -126,10 +127,14 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UIPasteboard.general.string = text
         self.UI {
 //            self.view!.makeToast("\(text)")
+            if text != "Cancel" {
             self.view!.makeToast("Copied\n \(text)", duration: 2.0, position:  CGPoint(x: self.view!.bounds.size.width / 2.0, y: self.view!.bounds.size.height / 2.0))
             Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { timer in
                 self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
             }
+        } else {
+            self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+        }
             
             //            self.view!.makeToast("\(text)", duration: 3.0, position: .center)
         }
