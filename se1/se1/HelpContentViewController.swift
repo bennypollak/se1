@@ -26,7 +26,7 @@ class HelpContentViewController: UIViewController {
         , UIImage(named: "mainshot-6.png")
     ]
     static let textData = [
-        "This is a share extension that works on any app that accepts sharing. It is an enhanced version  the standard 'Copy' share button that gives you more options",
+        "This is a share extension that works on any app that accepts sharing. It is an enhanced version of the standard 'Copy' share button that gives you more options",
         "If you don't see it the first time tap 'More'",
         "Enable it",
         "Move it up if you want and tap 'Done'",
