@@ -23,7 +23,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                       "(https?://[^/]*).*$":"$1",
                                       "(https?://).*\\.([^/.]*)\\.([^/.]*).*$":"$1$2.$3"
     ]
-    @IBOutlet weak var textLbl: UILabel!
     var urlString:String = ""
     fileprivate func cleanURL(_ pattern: String, _ string: String, _ template: String) -> String {
         //pattern = "car"
@@ -43,6 +42,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem?.title = "Save"
 //        textView.isHidden = true
         let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
+//        self.texts.append("Cancel")
 
         for item in extensionItem.attachments! {
             print("item: \(item)")
@@ -78,14 +78,16 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //                    UIPasteboard.general.string = self.urlString
                     self.UI {
 //                            self.view.makeToast("Video created!", duration: 3.0, position: .center)
-                        self.texts.append("Cancel")
                         self.table.reloadData()
                     }
                 })
             }
         }
     }
-//    override func isContentValid() -> Bool {
+    @IBAction func cancel(_ sender: Any) {
+        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+    }
+    //    override func isContentValid() -> Bool {
 //        // Do validation of contentText and/or NSExtensionContext attachments here
 //        return true
 //    }
