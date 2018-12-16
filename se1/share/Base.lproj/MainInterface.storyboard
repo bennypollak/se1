@@ -33,15 +33,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SYN-Du-FAd">
-                                                    <rect key="frame" x="4" y="0.0" width="342" height="99.5"/>
+                                                    <rect key="frame" x="4" y="10" width="342" height="79.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="SYN-Du-FAd" secondAttribute="bottom" id="Fl3-LR-71U"/>
-                                                <constraint firstItem="SYN-Du-FAd" firstAttribute="top" secondItem="yte-gZ-6fd" secondAttribute="top" id="bFg-Uu-4Sq"/>
+                                                <constraint firstAttribute="bottom" secondItem="SYN-Du-FAd" secondAttribute="bottom" constant="10" id="Fl3-LR-71U"/>
+                                                <constraint firstItem="SYN-Du-FAd" firstAttribute="top" secondItem="yte-gZ-6fd" secondAttribute="top" constant="10" id="bFg-Uu-4Sq"/>
                                                 <constraint firstAttribute="trailing" secondItem="SYN-Du-FAd" secondAttribute="trailing" constant="4" id="yL9-3D-3Ec"/>
                                                 <constraint firstItem="SYN-Du-FAd" firstAttribute="leading" secondItem="yte-gZ-6fd" secondAttribute="leading" constant="4" id="yOt-8i-pTR"/>
                                             </constraints>
