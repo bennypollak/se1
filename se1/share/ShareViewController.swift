@@ -19,9 +19,13 @@ class ShareCollectionViewCell: UITableViewCell {
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var texts:[String] = []
-    var patterns:[String:String] =  [ "(https?://.*)\\?.*$":"$1",
-                                      "(https?://[^/]*).*$":"$1",
-                                      "(https?://).*\\.([^/.]*)\\.([^/.]*).*$":"$1$2.$3"
+
+    // https://www.google.com/search?q=patriotic+hunks&tbm=isch&source=hp
+    // https://www.amazon.com/gp/product/B072J4QS9F/ref=?pf_rd_p=41-4e8c84b0e1&abc
+    var patterns:[String:String] =  [ "(https?://.*)\\?.*$":"$1"
+        , "(https?://[^/]*).*$":"$1"
+        , "(https?://).*\\.([^/.]*)\\.([^/.]*).*$":"$1$2.$3"
+        , "(https?://)(www.google.com/search\\?[^&]*).*$":"$1$2"
     ]
     var urlString:String = ""
     fileprivate func cleanURL(_ pattern: String, _ string: String, _ template: String) -> String {
